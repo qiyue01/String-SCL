@@ -18,7 +18,8 @@
 #include<functional>
 #define For(n) for(int i=0;i<n;++i)
 using namespace std;
-vector<long> compute_prefix(const string &pattern)
+template<typename T>
+vector<long> compute_prefix(const T &pattern)
 {
 	vector<long> prefix_function(pattern.size() + 2, 0);
 	long k = -1;
@@ -33,7 +34,8 @@ vector<long> compute_prefix(const string &pattern)
 	}
 	return prefix_function;
 }
-void KMP(string &file, string &pattern, int &a)
+template<typename T>
+void KMP(T &file, T &pattern, int &a)
 {
 	long n = file.size(), m = pattern.size();
 	vector<long> prefix_function = compute_prefix(pattern);
@@ -136,4 +138,11 @@ void print(vector<long> &part,long k)
 		print(part, part[k]);
 		cout << k << " ";
 	}
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 }
