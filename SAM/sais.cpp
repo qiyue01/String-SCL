@@ -1,4 +1,5 @@
 #include "pch.h"
+/*
 #include<string>
 #include<cstring>
 #include<vector>
@@ -17,7 +18,6 @@
 #include<memory>
 #include<functional>
 #define For(n) for(int i=0;i<n;++i)
-using namespace std;
 
 namespace SuffixArray {
 
@@ -90,4 +90,4 @@ namespace SuffixArray {
 		sais(s, sa, len, t, rk, ht, sigma);
 	}
 }
-using namespace SuffixArray;
+*/

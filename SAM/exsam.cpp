@@ -122,31 +122,6 @@ struct EXSAM
 		EXpool[0] = root;
 	}
 };
-int main()
-{
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int a, b, l, r, k;
-	cin >> a >> b;
-	string str;
-	EXSAM part;
-	part.init();
-	for (int i = 1; i <= a; ++i)
-	{
-		cin >> str;
-		for (int j = 0; j <= str.size(); ++j)
-		{
-			part.Insert(str[i] - 'a', i);
-		}
-		part.last = part.root;
-	}
-	for (int i = 0; i < b; ++i)
-	{
-		cin >> l >> r >> k;
-
-	}
-}
 
 
 

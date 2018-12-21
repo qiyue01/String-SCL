@@ -170,6 +170,7 @@
     <ClCompile Include="在线AC自动机.cpp" />
     <ClCompile Include="exsam.cpp" />
     <ClCompile Include="sais.cpp" />
+    <ClCompile Include="字符串仓库.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
