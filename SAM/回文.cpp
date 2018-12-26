@@ -31,6 +31,7 @@ namespace Palindromic
 	int fail[1000005];
 	int count1[1000005];
 	int num[1000005];
+	int trans[100015];
 	class Palindromic_Tree
 	{
 	public:
@@ -53,6 +54,7 @@ namespace Palindromic
 			memset(count1, 0, sizeof(count1));
 			memset(str, 0, sizeof(str));
 			memset(Next, 0, sizeof(Next));//
+			memset(trans, 0, sizeof(trans));
 			point = 0;
 			newnode(0);
 			newnode(-1);
@@ -67,7 +69,7 @@ namespace Palindromic
 				x = fail[x];
 			return x;
 		}
-		int add(int c)
+		void add(int c)
 		{
 			c -= 'a';
 			str[++n] = c;
@@ -81,7 +83,7 @@ namespace Palindromic
 			}
 			last = Next[cur][c];
 			count1[last]++;
-			return num[last];
+			trans[n] = last;
 		}
 		void build(string &s)
 		{
