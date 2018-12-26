@@ -27,6 +27,7 @@ namespace Palindromic
 	int point;
 	int n;
 	int Next[1000005][26];
+	//map<int, int> Next[100015];
 	int fail[1000005];
 	int count1[1000005];
 	int num[1000005];
@@ -38,6 +39,7 @@ namespace Palindromic
 		{
 			for (int i = 0; i < 26; ++i)
 				Next[point][i] = 0;
+			//Next[point].clear();
 			count1[point] = 0;
 			num[point] = 0;
 			len[point] = l;
@@ -50,7 +52,7 @@ namespace Palindromic
 			memset(fail, 0, sizeof(fail));
 			memset(count1, 0, sizeof(count1));
 			memset(str, 0, sizeof(str));
-			memset(Next, 0, sizeof(Next));
+			memset(Next, 0, sizeof(Next));//
 			point = 0;
 			newnode(0);
 			newnode(-1);
@@ -70,7 +72,7 @@ namespace Palindromic
 			c -= 'a';
 			str[++n] = c;
 			int cur = get_fail(last);
-			if (!Next[cur][c])
+			if (!Next[cur][c])//(Next[cur].find(c) == Next[cur].end())
 			{
 				int now = newnode(len[cur] + 2);
 				fail[now] = Next[get_fail(fail[cur])][c];
