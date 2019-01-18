@@ -98,6 +98,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <HeapReserveSize>100000000</HeapReserveSize>
       <StackReserveSize>100000000</StackReserveSize>
+      <HeapCommitSize>100000000</HeapCommitSize>
+      <StackCommitSize>100000000</StackCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,6 +159,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hash.cpp" />
     <ClCompile Include="kmp.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

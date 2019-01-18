@@ -59,6 +59,15 @@ struct EXSAM
 		root->clear();
 		root->visit = 0;
 	}
+	void update(EXSAM_node *np, int i)
+	{
+		while (np&& np->visit != i)
+		{
+			np->visit = i;
+			np->size++;
+			np = np->pre;
+		}
+	}
 	void Insert(int w,int i)//第i个子串的字符,每插入新串时last应设置为root
 	{  
 		EXSAM_node *p = last;
@@ -90,6 +99,8 @@ struct EXSAM
 					nq->step = p->step + 1;
 					memcpy(nq->next, q->next, sizeof(q->next));
 					nq->pre = q->pre;
+					//nq->size = q->size;
+					//nq->visit = q->visit;
 					q->pre = nq;
 					np->pre = nq;
 					while (p&&p->next[w] == q)
@@ -99,11 +110,6 @@ struct EXSAM
 				}
 			}
 		last = np;
-		if (i == 0)
-			last->vis = true;
-		last->cnt[i] = 1;
-		if(last->visit!=i)
-		last->size++;
 	}	
 	void topo()
 	{
@@ -122,7 +128,37 @@ struct EXSAM
 		EXpool[0] = root;
 	}
 };
-
+namespace trie_EXSAM
+{
+	EXSAM part;
+	string p[100100];
+	list<int> edge[100100];
+	bool vis[100100];
+	void add(int u, int v)
+	{
+		edge[u].push_back(v);
+	}
+	/*
+	void trie_build(int cur, EXSAM_node *cur2)
+	{
+		queue<pair<int, EXSAM_node *>> que;
+		pair<int, EXSAM_node *> pp;
+		que.push(make_pair(cur, cur2));
+		while (!que.empty())
+		{
+			pp = que.front();
+			que.pop();
+			for (auto &s : edge[pp.first])
+			{
+				part.last = pp.second;
+				for (auto L : p[s])
+					part.Insert(L - 'a');
+				que.push(make_pair(s, part.last));
+			}
+		}
+	}
+	*/
+}
 
 
 

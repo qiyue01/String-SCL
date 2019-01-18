@@ -54,7 +54,7 @@ void KMP(T &file, T &pattern, int &a)
 }
 vector<long> GETNEXT(string &str) //预处理计算next数组  
 {
-	vector<long> Next(str.size() + 5, -1);
+	vector<long> Next(str.size() + 5, 0);
 	int i = 0, j, po, len = str.size();
 	Next[0] = len;//初始化Next[0]  
 	while (str[i] == str[i + 1] && i + 1 < len)//计算Next[1]  
@@ -139,4 +139,51 @@ void print(vector<long> &part,long k)
 		cout << k << " ";
 	}
 }
-
+int solve(string s1, string s2, string s3)
+{
+	int ans = 0;
+	vector<long> p = EXKMP(s1,s2);
+	bool flag = 0;
+	int length=0;
+	for (int i = 0; i < s1.size(); ++i)
+	{
+		if (i + p[i] == s1.size())
+		{
+			length = p[i];
+			break;
+		}
+	}
+	if (flag == false)
+	{
+		if (length == 0)
+			s1 += s2;
+		else
+		s1 = s1 + s2.substr(s2.size() - length-1, length+1);
+	}
+	vector<long> p2 = EXKMP(s1, s3);
+	for (int i = 0; i < s1.size(); ++i)
+	{
+		if (p2[i] == s3.size())
+			return s1.size();
+		else if (i + p2[i] == s1.size())
+			return s1.size() + s3.size() - p2[i];
+	}
+	return s1.size() + s3.size();
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	string s1, s2, s3;
+	cin >> s1 >> s2 >> s3;
+	int ans = 10000000;
+	ans = min(ans, solve(s1, s2, s3));
+	ans = min(ans, solve(s1, s3, s2));
+	ans = min(ans, solve(s2, s1, s3));
+	ans = min(ans, solve(s2, s3, s1));
+	ans = min(ans, solve(s3, s2, s1));
+	ans = min(ans, solve(s3, s1, s2));
+	cout << ans << endl;
+	return 0;
+}
