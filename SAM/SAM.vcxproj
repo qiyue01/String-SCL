@@ -169,6 +169,7 @@
     </ClCompile>
     <ClCompile Include="sam+lct.cpp" />
     <ClCompile Include="SAM.cpp" />
+    <ClCompile Include="后缀树.cpp" />
     <ClCompile Include="回文.cpp" />
     <ClCompile Include="在线AC自动机.cpp" />
     <ClCompile Include="exsam.cpp" />
