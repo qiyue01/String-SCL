@@ -56,5 +56,8 @@
     <ClCompile Include="带del的SAM.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="后缀平衡树.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
