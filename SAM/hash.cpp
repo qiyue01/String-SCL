@@ -36,7 +36,7 @@ namespace string_hash
 		long long mod, prime;
 		int s1[N], len;
 		int lcp2;
-		stringHash(long long Mod = mod1, long long Prime = prime1) :mod(Mod), prime(Prime) {}
+		stringHash(long long Mod = mod4, long long Prime = prime2) :mod(Mod), prime(Prime) {}
 		void init1()
 		{
 			prime_n[0] = 0;
@@ -59,7 +59,7 @@ namespace string_hash
 			len++;
 			hash[len] = (hash[len - 1] * prime + p) % mod, s1[len] = p;
 		}
-		long long substring1(int l, int r)
+		long long substring1(int l, int r) //提取某段子串 返回值相等即子串相等
 		{
 			return ((hash[r] - hash[l - 1] * prime_n[r - l + 1]) % mod + mod) % mod;
 		}
