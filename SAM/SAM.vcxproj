@@ -169,12 +169,14 @@
     </ClCompile>
     <ClCompile Include="sam+lct.cpp" />
     <ClCompile Include="SAM.cpp" />
+    <ClCompile Include="后缀平衡树.cpp" />
     <ClCompile Include="后缀树.cpp" />
     <ClCompile Include="回文.cpp" />
     <ClCompile Include="在线AC自动机.cpp" />
     <ClCompile Include="exsam.cpp" />
     <ClCompile Include="sais.cpp" />
     <ClCompile Include="字符串仓库.cpp" />
+    <ClCompile Include="带del的SAM.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

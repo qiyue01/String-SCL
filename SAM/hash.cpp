@@ -18,7 +18,7 @@
 #include<functional>
 #include<cstdio>
 using namespace std;
-const int N = 1000010;
+const int N = 500010;
 namespace string_hash
 {
 	const long long mod1 = 9e8 + 11;
@@ -34,8 +34,9 @@ namespace string_hash
 	public:
 		long long prime_n[N], hash[N];
 		long long mod, prime;
+		int s1[N], len;
 		int lcp2;
-		stringHash(long long Mod, long long Prime) :mod(Mod), prime(Prime) {}
+		stringHash(long long Mod = mod4, long long Prime = prime2) :mod(Mod), prime(Prime) {}
 		void init1()
 		{
 			prime_n[0] = 0;
@@ -45,11 +46,20 @@ namespace string_hash
 		}
 		void trans1(string &str)
 		{
-			hash[0] = 0;
+			hash[0] = 0, len = str.size();
 			for (int i = 0; i < str.size(); ++i)
-				hash[i + 1] = (hash[i] * prime + str[i]) % mod;
+				hash[i + 1] = (hash[i] * prime + str[i]) % mod, s1[i + 1] = str[i];
 		}
-		long long substring1(int l, int r)
+		void pop_back()
+		{
+			len--;
+		}
+		void addchar(char p)
+		{
+			len++;
+			hash[len] = (hash[len - 1] * prime + p) % mod, s1[len] = p;
+		}
+		long long substring1(int l, int r) //提取某段子串 返回值相等即子串相等
 		{
 			return ((hash[r] - hash[l - 1] * prime_n[r - l + 1]) % mod + mod) % mod;
 		}
@@ -62,7 +72,7 @@ namespace string_hash
 		int lsp(int L1, int R1, int L2, int R2)
 		{
 			lcp2 = 0;
-			Lsp(L1, L2, 1, min(R1 - L1 + 1, R2 - L2 + 1));
+			Lsp(R1, R2, 1, min(R1 - L1 + 1, R2 - L2 + 1));
 			return lcp2;
 		}
 		void Lsp(int i1, int i2, int L, int R)
@@ -92,6 +102,15 @@ namespace string_hash
 				else
 					Lcp(i1, i2, L, mid - 1);
 			}
+		}
+		bool cmp_prefix(int a, int b) //false为b小，true为a
+		{
+			int k = lsp(1, a, 1, b);
+			if (k == b)
+				return false;
+			if (k == a)
+				return true;
+			return s1[a - k] < s1[b - k];
 		}
 	};
 }

@@ -34,15 +34,18 @@ namespace Suffix_Tree
 	const int maxc = 29;
 	struct ST {
 		const static int inf = 1e9;
+		int last[maxn];
 		int t[maxn][maxc], len[maxn], start[maxn], link[maxn], s[maxn], tot, n, rem, now, pool[maxn];
 		int cnt;
 		int ans[maxn], calc[maxn], pre[maxn];
+		int cur_len;
 		ST() :tot(1), n(0), rem(0), now(1) { len[0] = inf; }
 		void init()
 		{
 			memset(t, 0, sizeof(t));
 			memset(start, 0, sizeof(start));
 			memset(len, 0, sizeof(len));
+			memset(last, 0, sizeof(last));
 			tot = 1;
 			n = 0;
 			rem = 0;
@@ -95,6 +98,12 @@ namespace Suffix_Tree
 					pre[t[cur][i]] = cur;
 				}
 		}
+		void get_last()
+		{
+			for (int i = 1; i <= tot; ++i)
+				if (t[i][27] || len[i] > 2e8)
+					last[cur_len - ans[i] + 1] = i;
+		}
 		void topo() //广搜+剪枝处理信息，能同时递推出拓扑序
 		{
 			cnt = 0;
@@ -118,7 +127,7 @@ namespace Suffix_Tree
 				{
 					calc[cur] = 1;
 					continue;
-				}			
+				}
 				for (int i = 1; i < 27; ++i)
 					if (t[cur][i])
 					{
@@ -127,7 +136,6 @@ namespace Suffix_Tree
 						pre[t[cur][i]] = cur;
 					}
 			}
-
 		}
 	} st;
 }
