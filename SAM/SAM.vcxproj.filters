@@ -59,5 +59,8 @@
     <ClCompile Include="后缀平衡树.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="sam+可持久化线段树合并.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

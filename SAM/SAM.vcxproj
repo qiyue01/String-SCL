@@ -168,6 +168,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sam+lct.cpp" />
+    <ClCompile Include="sam+可持久化线段树合并.cpp" />
     <ClCompile Include="SAM.cpp" />
     <ClCompile Include="后缀平衡树.cpp" />
     <ClCompile Include="后缀树.cpp" />
