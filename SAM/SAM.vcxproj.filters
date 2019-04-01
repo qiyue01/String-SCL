@@ -62,5 +62,8 @@
     <ClCompile Include="sam+可持久化线段树合并.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="双向追加回文树.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
