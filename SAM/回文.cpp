@@ -21,24 +21,26 @@ using namespace std;
 
 namespace Palindromic
 {
-	int len[1000005];
-	int str[1000005];
+	const int sigma = 29;
+	const int N = 450000;
+	int len[N];//以节点i为结尾的回文串的长度
+	int str[N];//第i次添加的字符
 	int last;
 	int point;
 	int n;
-	int Next[1000005][26];
+	int Next[N][sigma];
 	//map<int, int> Next[100015];
-	int fail[1000005];
-	int count1[1000005];
-	int num[1000005];
-	int trans[100015];
+	int fail[N];//类似于AC自动机的fail指针，指向失配后需要跳转到的节点（即为i的最长回文后缀且不为i）
+	int count1[N];//节点i表示的回文串在S中出现的次数（建树时求出的不是完全的，count()加上子节点以后才是正确的）
+	int num[N];//以节点i回文串的末尾字符结尾的但不包含本条路径上的回文串的数目。(也就是fail指针路径的深度)
+	int trans[N];//每个字符i对应的last指针
 	class Palindromic_Tree
 	{
 	public:
 
 		int newnode(int l)
 		{
-			for (int i = 0; i < 26; ++i)
+			for (int i = 0; i < sigma; ++i)
 				Next[point][i] = 0;
 			//Next[point].clear();
 			count1[point] = 0;
@@ -46,15 +48,8 @@ namespace Palindromic
 			len[point] = l;
 			return point++;
 		}
-		void init()
+		void init(int p)
 		{
-			memset(len, 0, sizeof(len));
-			memset(num, 0, sizeof(num));
-			memset(fail, 0, sizeof(fail));
-			memset(count1, 0, sizeof(count1));
-			memset(str, 0, sizeof(str));
-			memset(Next, 0, sizeof(Next));//
-			memset(trans, 0, sizeof(trans));
 			point = 0;
 			newnode(0);
 			newnode(-1);
@@ -95,9 +90,102 @@ namespace Palindromic
 			for (int i = point - 1; i >= 0; i--)//逆序累加，保证每个点都会比它的父亲节点先算完，于是父亲节点能加到所有子孙
 				count1[fail[i]] += count1[i];
 		}
-	};
-	int pa[1000005];
+	} tree;
 }
+
+namespace Palindromic2 //内存压缩版
+{
+	const int sigma = 26;
+	const int N = 2010000;
+	int len[N];//以节点i为结尾的回文串的长度
+	int str[N];//第i次添加的字符
+	int last;
+	int point;
+	int n;
+	//int Next[N][sigma];
+	vector<pair<int, int> > Next[N];
+	int fail[N];//类似于AC自动机的fail指针，指向失配后需要跳转到的节点（即为i的最长回文后缀且不为i）
+	//int count1[N];//节点i表示的回文串在S中出现的次数（建树时求出的不是完全的，count()加上子节点以后才是正确的）
+	int num[N];//以节点i回文串的末尾字符结尾的但不包含本条路径上的回文串的数目。(也就是fail指针路径的深度)
+	//int trans[N];//每个字符i对应的last指针
+	class Palindromic_Tree
+	{
+	public:
+
+		int newnode(int l)
+		{
+			//for (int i = 0; i < sigma; ++i)
+				//Next[point][i] = 0;
+			Next[point].clear();
+			//count1[point] = 0;
+			num[point] = 0;
+			len[point] = l;
+			return point++;
+		}
+		int find(int k, int c)
+		{
+			for (int i = 0; i < Next[k].size(); ++i)
+				if (Next[k][i].first == c)
+					return i;
+			return -1;
+		}
+		void init2()
+		{
+			for (int i = 0; i <= point + 100; ++i)
+				Next[i].clear();
+			init();
+		}
+		void init()
+		{
+			point = 0;
+			newnode(0);
+			newnode(-1);
+			last = 0;
+			n = 0;
+			str[n] = -1;
+			fail[0] = 1;
+		}
+		int get_fail(int x)
+		{
+			while (str[n - len[x] - 1] != str[n])
+				x = fail[x];
+			return x;
+		}
+		void add(int c)
+		{
+			c -= 'a';
+			str[++n] = c;
+			int cur = get_fail(last);
+			if (find(cur, c) == -1)//(!Next[cur][c])
+			{
+				int now = newnode(len[cur] + 2);
+				int kk = get_fail(fail[cur]);
+				if (find(kk, c) == -1)
+					fail[now] = 0;
+				else
+					fail[now] = Next[kk][find(kk, c)].second;
+				Next[cur].push_back(make_pair(c, now));
+				num[now] = num[fail[now]] + 1;
+			}
+			last = Next[cur][find(cur, c)].second;
+			//count1[last]++;
+			//trans[n] = last;
+		}
+		void build(string &s)
+		{
+			for (int i = 0; i < s.size(); ++i)
+				add(s[i]);
+		}
+		/*
+		void counting()//统计本质相同的回文串的出现次数
+		{
+			for (int i = point - 1; i >= 0; i--)//逆序累加，保证每个点都会比它的父亲节点先算完，于是父亲节点能加到所有子孙
+				count1[fail[i]] += count1[i];
+		}
+		*/
+	} tree;
+}
+using namespace Palindromic2;
 namespace manacher1 { //先init（）再manacher
 	const int N = 11000000 + 5;
 	int cnt, len, ans = 0;
