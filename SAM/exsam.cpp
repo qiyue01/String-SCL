@@ -54,7 +54,7 @@ struct EXSAM
 	EXSAM_node  *cur;
 	void init()
 	{
-		cur = EXSAM_Pool;  //cur=µ±Ç°»¡
+		cur = EXSAM_Pool;  
 		root = last = cur++;
 		root->clear();
 		root->visit = 0;
