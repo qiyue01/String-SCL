@@ -179,6 +179,7 @@
     <ClCompile Include="sais.cpp" />
     <ClCompile Include="字符串仓库.cpp" />
     <ClCompile Include="带del的SAM.cpp" />
+    <ClCompile Include="广义后缀树.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

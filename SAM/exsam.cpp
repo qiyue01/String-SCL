@@ -1,3 +1,14 @@
+/*
+* EXSAM维护信息还是用set或者可持久化线段树比较好 
+* 实时更新信息的话要注意nq到q的信息拷贝 比较麻烦
+*
+*
+*
+*
+*
+*
+*/
+
 #include "pch.h"
 #include<string>
 #include<cstring>
