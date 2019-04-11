@@ -22,22 +22,23 @@ using namespace std;
 namespace Palindromic
 {
 	const int sigma = 29;
-	const int N = 450000;
-	int len[N];//以节点i为结尾的回文串的长度
-	int str[N];//第i次添加的字符
-	int last;
-	int point;
-	int n;
-	int Next[N][sigma];
-	//map<int, int> Next[100015];
-	int fail[N];//类似于AC自动机的fail指针，指向失配后需要跳转到的节点（即为i的最长回文后缀且不为i）
-	int count1[N];//节点i表示的回文串在S中出现的次数（建树时求出的不是完全的，count()加上子节点以后才是正确的）
-	int num[N];//以节点i回文串的末尾字符结尾的但不包含本条路径上的回文串的数目。(也就是fail指针路径的深度)
-	int trans[N];//每个字符i对应的last指针
+	const int N = 550000;
+
 	class Palindromic_Tree
 	{
 	public:
-
+		int len[N];//以节点i为结尾的回文串的长度
+		int str[N];//第i次添加的字符
+		int last;
+		int point;
+		int n;
+		int Next[N][sigma];
+		//map<int, int> Next[100015];
+		int fail[N];//类似于AC自动机的fail指针，指向失配后需要跳转到的节点（即为i的最长回文后缀且不为i）
+		int count1[N];//节点i表示的回文串在S中出现的次数（建树时求出的不是完全的，count()加上子节点以后才是正确的）
+		int num[N];//以节点i回文串的末尾字符结尾的但不包含本条路径上的回文串的数目。(也就是fail指针路径的深度)
+		int trans[N];//每个字符i对应的last指针
+		int half[N];//每个节点对应的回文减半的指针
 		int newnode(int l)
 		{
 			for (int i = 0; i < sigma; ++i)
@@ -46,9 +47,10 @@ namespace Palindromic
 			count1[point] = 0;
 			num[point] = 0;
 			len[point] = l;
+			half[point] = 0;
 			return point++;
 		}
-		void init(int p)
+		void init()
 		{
 			point = 0;
 			newnode(0);
@@ -66,7 +68,7 @@ namespace Palindromic
 		}
 		void add(int c)
 		{
-			c -= 'a';
+			c = c - 'a' + 1;
 			str[++n] = c;
 			int cur = get_fail(last);
 			if (!Next[cur][c])//(Next[cur].find(c) == Next[cur].end())
@@ -75,6 +77,17 @@ namespace Palindromic
 				fail[now] = Next[get_fail(fail[cur])][c];
 				Next[cur][c] = now;
 				num[now] = num[fail[now]] + 1;
+				if (len[now] <= 2)  //求half指针版
+				{
+					half[now] = fail[now];
+				}
+				else
+				{
+					int tmp = half[cur];
+					while (str[n - len[tmp] - 1] != str[n] || ((len[tmp] + 2) << 1) > len[now]) tmp = fail[tmp];
+					//拓展后的长度为len[tmp]+2
+					half[now] = Next[tmp][c];
+				}
 			}
 			last = Next[cur][c];
 			count1[last]++;
@@ -92,6 +105,7 @@ namespace Palindromic
 		}
 	} tree;
 }
+using namespace Palindromic;
 
 namespace Palindromic2 //内存压缩版
 {

@@ -159,6 +159,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ac自动机_带sign处理fail树版.cpp" />
     <ClCompile Include="hash.cpp" />
     <ClCompile Include="kmp.cpp" />
     <ClCompile Include="pch.cpp">
@@ -170,6 +171,7 @@
     <ClCompile Include="sam+lct.cpp" />
     <ClCompile Include="sam+可持久化线段树合并.cpp" />
     <ClCompile Include="SAM.cpp" />
+    <ClCompile Include="二维hash.cpp" />
     <ClCompile Include="双向追加回文树.cpp" />
     <ClCompile Include="后缀平衡树.cpp" />
     <ClCompile Include="后缀树.cpp" />

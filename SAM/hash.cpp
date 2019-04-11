@@ -29,6 +29,7 @@ namespace string_hash
 	const long long prime1 = 131;
 	const long long prime2 = 233;
 	const long long prime3 = 13331;
+	const long long prime4 = 200003;//超大值域时使用，需要离散化输入数据
 	class stringHash
 	{
 	public:

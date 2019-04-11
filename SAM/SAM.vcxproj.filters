@@ -68,5 +68,11 @@
     <ClCompile Include="广义后缀树.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="二维hash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ac自动机_带sign处理fail树版.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
