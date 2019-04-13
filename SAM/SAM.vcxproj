@@ -172,6 +172,7 @@
     <ClCompile Include="sam+可持久化线段树合并.cpp" />
     <ClCompile Include="SAM.cpp" />
     <ClCompile Include="二维hash.cpp" />
+    <ClCompile Include="动态hash.cpp" />
     <ClCompile Include="双向追加回文树.cpp" />
     <ClCompile Include="后缀平衡树.cpp" />
     <ClCompile Include="后缀树.cpp" />
