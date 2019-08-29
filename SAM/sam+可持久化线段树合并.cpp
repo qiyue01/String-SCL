@@ -40,7 +40,10 @@ using namespace std;
 #define  G(x,y) get<y>(x)
 namespace tree //函数式线段树 动态开点
 {
-	const int N1 = 16000000;
+	const int inf = 100000100;
+	const int L_ = 1;
+	const int R_ = 0x7fffffff - 1;
+	const int N = 16000000;
 	struct node
 	{
 		node *L, *R;
@@ -51,34 +54,37 @@ namespace tree //函数式线段树 动态开点
 			l = r = val = 0;
 		}
 	};
-	node pool[N1], *cur;
+	node pool[N], *cur, *null;
 	void clear()
 	{
 		cur = pool;
+		null = cur++;
+		null->l = null->r = null->val = 0, null->L = null, null->R = null;
 		cur->clear();
 	}
 	node *new_node(int L, int R, int val)
 	{
 		cur->l = L, cur->r = R, cur->val = val;
+		cur->L = null, cur->R = null;
 		return cur++;
 	}
-	void push_down(node *a) //创建合适的子节点
+	void pl(node *a)
 	{
-		if ((a->L != NULL && a->R != NULL) || (a->l == a->r))
+		if ((a->L != null) || (a->l == a->r))
 			return;
 		int mid = (a->l + a->r) / 2;
 		a->L = new_node(a->l, mid, 0);
+	}
+	void pr(node *a)
+	{
+		if ((a->R != null) || (a->l == a->r))
+			return;
+		int mid = (a->l + a->r) / 2;
 		a->R = new_node(mid + 1, a->r, 0);
 	}
-	void update(node *x) //权值线段树清空区间后的维护
-	{
-		x->val = 0;
-		if (x->L != NULL) x->val += x->L->val;
-		if (x->R != NULL) x->val += x->R->val;
-	}
+
 	node* insert(node *old_version, int k)//单点插入 从旧版本生成新版本 权值线段树
 	{
-		push_down(old_version);
 		int l = old_version->l, r = old_version->r;
 		node * new_version = new_node(l, r, old_version->val + 1);
 		if (l != r)
@@ -86,11 +92,13 @@ namespace tree //函数式线段树 动态开点
 			int mid = (l + r) / 2;
 			if (k >= mid + 1)
 			{
+				pr(old_version);
 				new_version->R = insert(old_version->R, k);
 				new_version->L = old_version->L;
 			}
 			else
 			{
+				pl(old_version);
 				new_version->L = insert(old_version->L, k);
 				new_version->R = old_version->R;
 			}
@@ -99,35 +107,32 @@ namespace tree //函数式线段树 动态开点
 	}
 	void insert_cur(node *cur_version, int k)//单点插入 插入某个版本 权值线段树
 	{
-		push_down(cur_version);
 		int l = cur_version->l, r = cur_version->r;
 		int mid = (l + r) / 2;
 		cur_version->val++;
 		if (l != r)
 		{
 			if (k >= mid + 1)
-				insert_cur(cur_version->R, k);
+				pr(cur_version), insert_cur(cur_version->R, k);
 			else
-				insert_cur(cur_version->L, k);
+				pl(cur_version), insert_cur(cur_version->L, k);
 		}
 	}
-	void insert_cur_n(node *cur_version, int k, int data)//单点+ 插入某个版本 普通线段树 
+	void insert_cur_n(node *cur_version, int k, int data)//单点+ 插入某个版本 普通线段树
 	{
-		push_down(cur_version);
 		int l = cur_version->l, r = cur_version->r;
 		int mid = (l + r) / 2;
 		cur_version->val += data;
 		if (l != r)
 		{
 			if (k >= mid + 1)
-				insert_cur_n(cur_version->R, k, data);
+				pr(cur_version), insert_cur_n(cur_version->R, k, data);
 			else
-				insert_cur_n(cur_version->L, k, data);
+				pl(cur_version), insert_cur_n(cur_version->L, k, data);
 		}
 	}
-	node* insert_n(node *old_version, int k, int data)//单点+ 从旧版本生成新版本 普通线段树 
+	node* insert_n(node *old_version, int k, int data)//单点+ 从旧版本生成新版本 普通线段树
 	{
-		push_down(old_version);
 		int l = old_version->l, r = old_version->r;
 		node * new_version = new_node(l, r, old_version->val + data);
 		if (l != r)
@@ -135,12 +140,14 @@ namespace tree //函数式线段树 动态开点
 			int mid = (l + r) / 2;
 			if (k >= mid + 1)
 			{
+				pr(old_version);
 				new_version->R = insert_n(old_version->R, k, data);
 				new_version->L = old_version->L;
 			}
 			else
 			{
-				new_version->L = insert_n(old_version->L, k, data);
+				pl(old_version),
+					new_version->L = insert_n(old_version->L, k, data);
 				new_version->R = old_version->R;
 			}
 		}
@@ -148,12 +155,19 @@ namespace tree //函数式线段树 动态开点
 	}
 	node *merge(node *x, node *y) //合并x,y,返回合并后的根
 	{
-		if (x == NULL) return y;
-		if (y == NULL) return x;
+		if (x == null) return y;
+		if (y == null) return x;
 		node *merge_version = new_node(x->l, x->r, y->val + x->val);
 		merge_version->L = merge(x->L, y->L);
 		merge_version->R = merge(x->R, y->R);
 		return merge_version;
+	}
+	void update(node *x) //权值线段树清空区间后的维护
+	{
+		if (x->l == x->r) return;
+		x->val = 0;
+		x->val += x->L->val;
+		x->val += x->R->val;
 	}
 	void merge_all(node *x, node *y) // 将x全树合并到y上
 	{
@@ -163,7 +177,7 @@ namespace tree //函数式线段树 动态开点
 	}
 	int query_sum(node *x, int L, int R) //区间求和 可以直接用来代替单点查询
 	{
-		if (x == NULL) return 0;
+		if (x == null) return 0;
 		int sum = 0;
 		int mid = (x->l + x->r) / 2;
 		if (x->l == L && x->r == R)
@@ -178,37 +192,20 @@ namespace tree //函数式线段树 动态开点
 				return query_sum(x->R, L, R);
 		}
 	}
-	int query_max(node *x, int L, int R) //区间求和 可以直接用来代替单点查询
-	{
-		if (x == NULL) return 0;
-		int sum = 0;
-		int mid = (x->l + x->r) / 2;
-		if (x->l == L && x->r == R)
-			return x->val;
-		else
-		{
-			if (L <= mid && R > mid)
-				return max(query_max(x->L, L, mid), query_max(x->R, mid + 1, R));
-			else if (R <= mid)
-				return query_max(x->L, L, R);
-			else if (L >= mid + 1)
-				return query_max(x->R, L, R);
-		}
-	}
 	void merge(int L, int R, node *x, node *y) //将x的区间合并到y上
 	{
-		if (x == NULL) return;
+		if (x == null) return;
 		int mid = (x->l + x->r) / 2;
 		if (x->l == L && x->r == R)
 		{
 			y->val += x->val;
 			y->L = merge(x->L, y->L);
 			y->R = merge(x->R, y->R);
-			//x->L = NULL, x->R = NULL; //是否清空原区间 可选
+			//x->L = null, x->R = null; //是否清空原区间 可选
 		}
 		else
 		{
-			push_down(y);
+			pl(y), pr(y);
 			if (L <= mid && R > mid)
 				merge(L, mid, x->L, y->L), merge(mid + 1, R, x->R, y->R);
 			else if (R <= mid)
@@ -223,7 +220,7 @@ using namespace tree;
 
 #define For(n) for(int i=0;i<n;++i)
 using namespace std;
-const int N = 300010;
+const int N1 = 300010;
 struct EXSAM_node
 {
 	EXSAM_node *next[26], *pre;
@@ -247,9 +244,9 @@ struct EXSAM_node
 		//memset(cnt, 0, sizeof(cnt));
 	}
 };
-EXSAM_node EXSAM_Pool[N * 2];
-EXSAM_node *EXpool[N * 2];
-long d[N * 2];
+EXSAM_node EXSAM_Pool[N1 * 2];
+EXSAM_node *EXpool[N1 * 2];
+long d[N1 * 2];
 struct EXSAM
 {
 	EXSAM_node *root, *last;
