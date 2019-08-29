@@ -162,6 +162,7 @@
     <ClCompile Include="ac自动机_带sign处理fail树版.cpp" />
     <ClCompile Include="hash.cpp" />
     <ClCompile Include="kmp.cpp" />
+    <ClCompile Include="NTT.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
