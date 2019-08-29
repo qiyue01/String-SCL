@@ -168,6 +168,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SAM+01trie.cpp" />
     <ClCompile Include="sam+lct.cpp" />
     <ClCompile Include="sam+可持久化线段树合并.cpp" />
     <ClCompile Include="SAM.cpp" />
@@ -183,6 +184,9 @@
     <ClCompile Include="字符串仓库.cpp" />
     <ClCompile Include="带del的SAM.cpp" />
     <ClCompile Include="广义后缀树.cpp" />
+    <ClCompile Include="求border的板子.cpp" />
+    <ClCompile Include="求所有本原k次子串.cpp" />
+    <ClCompile Include="线段树区间hash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
