@@ -105,6 +105,24 @@ struct Trie
 			}
 		}
 	}
+	void bfs()
+	{
+		for (int i = 0; i < sigma; ++i)
+			if (!root->next[i])
+				root->next[i] = root;
+			else
+				que1.push(root->next[i]);
+		while (!que1.empty())
+		{
+			auto it = que1.front();
+			que1.pop();
+			for (int i = 0; i < sigma; ++i)
+				if (!it->next[i])
+					it->next[i] = it->fail->next[i];
+				else
+					que1.push(it->next[i]);
+		}
+	}
 	void clear()
 	{
 		root = newnode();
