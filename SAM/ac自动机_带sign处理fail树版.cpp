@@ -18,9 +18,10 @@
 #include<memory>
 #include<functional>
 #define EPS 1e-8
-const int sigma = 26;
+
 using namespace std;
 /*
+const int sigma = 26;
 struct Trie_node
 {
 	Trie_node *next[sigma];

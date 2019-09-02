@@ -80,5 +80,20 @@
     <ClCompile Include="NTT.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SAM+01trie.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="求border的板子.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="求所有本原k次子串.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="线段树区间hash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="前删后加后缀树.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
